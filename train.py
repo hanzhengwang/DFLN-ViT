@@ -303,7 +303,7 @@ def train(epoch, loss_log):
         label2 = Variable(label2.cuda().long())
         data_time.update(time.time() - end)
 
-        outputs, feat, Loss = net(input1, input2)
+        outputs, feat = net(input1, input2)
         if args.method == 'id':
             loss0 = criterion(outputs[0], labels)
             loss1 = criterion(outputs[1], labels)
@@ -334,7 +334,7 @@ def train(epoch, loss_log):
             correct += predicted.eq(labels).sum().item()
 
         optimizer.zero_grad()
-        loss = loss0 + loss1 + loss2 + loss3 + loss4 + loss5 + 0.01 * Loss
+        loss = loss0 + loss1 + loss2 + loss3 + loss4 + loss5
         loss.backward()
         optimizer.step()
         loss = (loss0 + loss1 + loss2 + loss3 + loss4 + loss5) / 6
